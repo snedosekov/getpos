@@ -22,7 +22,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 RCVOBJ = $(patsubst %,$(ODIR)/%,$(_RCVOBJ))
 
 all        : getpos
-getpos     : $(OBJ) $(RCVOBJ)
+getpos     : $(ODIR) $(OBJ) $(RCVOBJ)
 	$(CC) $(OBJ) $(RCVOBJ) -Wall -o $@ $(LDLIBS)
 $(ODIR)/%.o: $(SRC)/%.c $(SRC)/rtklib.h
 	$(CC) -c $(CFLAGS) -o $@ -c $<
@@ -30,6 +30,8 @@ $(ODIR)/%.o: $(RCVSRC)/%.c $(SRC)/rtklib.h
 	$(CC) -c $(CFLAGS) -o $@ -c $<
 $(ODIR)/%.o   : $(SRC)/getpos/%.c
 	$(CC) -c $(CFLAGS) -o $@ -c $< 
+$(ODIR):
+	mkdir $(ODIR)
 
 clean:
 	rm -f getpos *.nav $(ODIR)/*.o *.out *.trace
